@@ -1,0 +1,1689 @@
+
+/* =====================================
+   EDOU / GLOBAL
+===================================== */
+
+:root {
+  --ink: #141414;
+  --blue: #0066FF;
+  --paper: #f7f7f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: white;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body.index-active {
+  overflow: hidden;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#edou-logo {
+  display: block;
+  width: min(90vw, 1100px);
+  height: auto;
+  overflow: visible;
+}
+
+
+/* =====================================
+   HOME / ENTRANCE
+===================================== */
+
+.edou-hero {
+  min-height: 100svh;
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  padding: 105px 93px 120px 40px;
+  isolation: isolate;
+}
+
+.hero-topline {
+  position: absolute;
+  top: 31px;
+  left: 43px;
+  right: 116px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  color: #888;
+  font-size: 10px;
+  letter-spacing: .18em;
+}
+
+.hero-top-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.hero-top-right a {
+  color: #111;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.hero-top-right a:hover {
+  color: var(--blue);
+}
+
+.hero-instruction {
+  position: absolute;
+  top: 18vh;
+  left: 45px;
+  color: #aaa;
+  font-size: 10px;
+  line-height: 1.8;
+  letter-spacing: .17em;
+}
+
+.hero-scroll-cue {
+  position: absolute;
+  left: 43px;
+  bottom: 42px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: #111;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: .2em;
+  text-decoration: none;
+}
+
+.cue-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.cue-arrow {
+  font-size: 25px;
+  font-weight: 400;
+  transition: transform .3s;
+}
+
+.hero-scroll-cue:hover .cue-arrow {
+  transform: translateY(5px);
+}
+
+.hero-bottom-code {
+  position: absolute;
+  right: 115px;
+  bottom: 45px;
+  color: #bbb;
+  font-size: 9px;
+  letter-spacing: .18em;
+}
+
+
+/* =====================================
+   E / ARCHITECTURE PORTFOLIO
+===================================== */
+
+.wordmark-stage {
+  width: min(86vw, 1100px);
+  max-width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.edou-hero .wordmark-stage #edou-logo {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.architecture-label {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 13px);
+
+  height: 89%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(5px, .7vw, 11px);
+
+  transform: translateY(-50%) translateX(7px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity .22s ease,
+    transform .22s ease,
+    visibility .22s;
+}
+
+/* Approved thin blue vertical lettering */
+.architecture-label .architecture-word,
+.architecture-label .portfolio-word {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(7px, 1.05vw, 14px);
+  font-weight: 400;
+  color: var(--blue);
+  letter-spacing: .12em;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-text-stroke: 0;
+}
+
+.architecture-rule {
+  width: 3px;
+  height: 100%;
+  margin-left: 3px;
+  border-radius: 3px;
+  background: var(--blue);
+}
+
+.wordmark-stage.architecture-hover .architecture-label {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+#architecture-trigger {
+  cursor: pointer;
+  outline: none;
+}
+
+#architecture-trigger:focus-visible rect {
+  stroke: var(--blue);
+  stroke-width: 4;
+  stroke-dasharray: 8 8;
+}
+
+
+/* =====================================
+   E / 30-SECOND NIGHTTIME ANIMATION
+===================================== */
+
+#e-night-building {
+  opacity: 0;
+  transition: opacity .28s ease;
+}
+
+.edou-hero.night-active #e-night-building {
+  opacity: 1;
+}
+
+.wordmark-stage.architecture-hover #e-night-building {
+  opacity: 0;
+}
+
+.night-window {
+  overflow: hidden;
+}
+
+.window-glass {
+  fill: #181818;
+  transition: fill .35s ease;
+}
+
+.night-window.lit .window-glass {
+  fill: #F3D27D;
+}
+
+.window-frame {
+  fill: none;
+  stroke: #777;
+  stroke-width: 1.3;
+  pointer-events: none;
+}
+
+.night-window.lit .window-frame {
+  stroke: #B29C6A;
+}
+
+.walker {
+  fill: #141414;
+  opacity: 0;
+}
+
+.night-window.occupied.walk-right .walker {
+  animation:
+    walkingRight var(--walk-duration, 3s)
+    linear infinite;
+}
+
+.night-window.occupied.walk-left .walker {
+  animation:
+    walkingLeft var(--walk-duration, 3s)
+    linear infinite;
+}
+
+@keyframes walkingRight {
+  0% {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+
+  15%, 80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(48px);
+    opacity: 0;
+  }
+}
+
+@keyframes walkingLeft {
+  0% {
+    transform: translateX(48px);
+    opacity: 0;
+  }
+
+  15%, 80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+}
+
+.left-leg {
+  opacity: 1;
+}
+
+.right-leg {
+  opacity: 0;
+}
+
+.night-window.occupied .left-leg {
+  animation: leftLegStep .5s linear infinite;
+}
+
+.night-window.occupied .right-leg {
+  animation: rightLegStep .5s linear infinite;
+}
+
+@keyframes leftLegStep {
+  0%, 49.99% { opacity: 1; }
+  50%, 99.99% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes rightLegStep {
+  0%, 49.99% { opacity: 0; }
+  50%, 99.99% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+/* =====================================
+   BLUE DOT ANIMATION
+===================================== */
+
+#edou-dot {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: fill .25s ease;
+}
+
+#edou-dot:hover,
+#edou-dot:focus-visible {
+  fill: #3385FF;
+}
+
+#edou-dot:focus {
+  outline: none;
+}
+
+#edou-dot:focus-visible {
+  stroke: #003B70;
+  stroke-width: 5;
+}
+
+#dot-travel.play {
+  animation: travelToO 1.8s linear forwards;
+}
+
+#dot-travel.play #edou-dot {
+  animation: shrinkAway 1.8s linear forwards;
+}
+
+@keyframes travelToO {
+  0% {
+    transform: translate(0, 0);
+    animation-timing-function:
+      cubic-bezier(.45, 0, .2, 1);
+  }
+
+  70% {
+    transform: translate(415px, 2px);
+    animation-timing-function: ease-in;
+  }
+
+  100% {
+    transform: translate(415px, 42px);
+  }
+}
+
+@keyframes shrinkAway {
+  0%, 70% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+
+/* =====================================
+   MAIN SCROLLING SECTIONS
+===================================== */
+
+.scroll-section {
+  min-height: 120svh;
+  position: relative;
+  overflow: hidden;
+  background: var(--paper);
+  border-top: 1px solid #dadada;
+  padding:
+    0 clamp(27px, 7.3vw, 130px)
+    110px clamp(27px, 6vw, 104px);
+}
+
+.scroll-section:nth-child(even) {
+  background: #f0f0ee;
+}
+
+.section-rule {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px 15px 14px 0;
+  border-bottom: 1px solid #d5d5d5;
+  color: #969696;
+  font-size: 10px;
+  letter-spacing: .17em;
+}
+
+.section-inner {
+  max-width: 1200px;
+  padding-top: clamp(100px, 16vh, 180px);
+}
+
+.section-kicker {
+  margin: 0 0 26px;
+  color: #909090;
+  font-size: 10px;
+  letter-spacing: .25em;
+}
+
+.motion-heading {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(45px, 9vw, 128px);
+  font-weight: 500;
+  line-height: .93;
+  letter-spacing: -.055em;
+  text-transform: uppercase;
+
+  transform-origin: left center;
+  transform: translate3d(0, 46px, 0) scale(.78);
+  color: #b2b2b2;
+  will-change: transform, color;
+}
+
+.ampersand {
+  font-weight: 400;
+  color: var(--blue);
+}
+
+.section-description {
+  max-width: 540px;
+  margin: 42px 0 0;
+  color: #626262;
+  font-size: clamp(15px, 1.6vw, 19px);
+  line-height: 1.7;
+}
+
+.section-baseline {
+  position: absolute;
+  bottom: 28px;
+  left: clamp(27px, 6vw, 104px);
+  right: 108px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+
+  padding-top: 15px;
+  border-top: 1px solid #d2d2d2;
+  color: #a6a6a6;
+  font-size: 10px;
+  letter-spacing: .18em;
+}
+
+
+/* PROJECTS LIST */
+
+.project-index {
+  max-width: 1100px;
+  margin-top: clamp(55px, 10vh, 110px);
+  border-top: 1px solid #bfbfbd;
+}
+
+.project-line {
+  display: grid;
+  grid-template-columns:
+    52px minmax(0, 1fr) minmax(100px, 225px);
+  align-items: center;
+  column-gap: 20px;
+
+  padding: 25px 6px 25px 0;
+  border-bottom: 1px solid #d4d4d3;
+}
+
+.project-line > span,
+.project-line > small {
+  color: #a3a3a3;
+  font-size: 10px;
+  letter-spacing: .15em;
+}
+
+.project-line > strong {
+  font-size: clamp(19px, 2.5vw, 34px);
+  font-weight: 700;
+  letter-spacing: -.04em;
+}
+
+.project-line > small {
+  text-align: right;
+}
+
+
+/* ABOUT DRAWING */
+
+.studio-drawing {
+  width: min(70%, 530px);
+  height: 250px;
+  position: relative;
+  margin-top: 60px;
+  border: 1px solid #dadada;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 29px,
+      #e0e0df 30px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 29px,
+      #e0e0df 30px
+    );
+}
+
+.studio-shape {
+  position: absolute;
+  top: 36%;
+  left: 33%;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #989898;
+}
+
+.studio-shape.two {
+  transform: translate(37px, -20px);
+  border-color: var(--blue);
+}
+
+.studio-shape.three {
+  transform: translate(74px, -40px);
+  border-style: dashed;
+  border-color: #b7b7b7;
+}
+
+.studio-crosshair {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 34px;
+  height: 34px;
+  border-left: 1px solid #989898;
+  border-top: 1px solid #989898;
+}
+
+.studio-annotation {
+  position: absolute;
+  bottom: 13px;
+  left: 15px;
+  color: #999;
+  font-size: 9px;
+  letter-spacing: .1em;
+}
+
+
+/* CONTACT */
+
+.contact-study {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 860px;
+  margin-top: 13vh;
+  padding: 30px 0;
+  border-top: 1px solid #c7c7c7;
+  border-bottom: 1px solid #c7c7c7;
+  font-size: 12px;
+  letter-spacing: .12em;
+}
+
+.contact-study a {
+  color: #111;
+  text-decoration: none;
+}
+
+.contact-study a:hover {
+  color: var(--blue);
+}
+
+.return-to-top {
+  display: inline-block;
+  margin-top: 70px;
+  padding-bottom: 8px;
+  color: #3e3e3e;
+  border-bottom: 1px solid #888;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-decoration: none;
+}
+
+.return-to-top:hover {
+  color: var(--blue);
+}
+
+
+/* =====================================
+   MECHANICAL DEPTH RULER
+===================================== */
+
+.depth-ruler {
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 87px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 0 33px;
+
+  background: rgba(250, 250, 249, .91);
+  border-left: 1px solid #ddd;
+
+  transition: opacity .35s ease;
+}
+
+.ruler-title {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  height: 108px;
+  margin-bottom: 22px;
+  color: #9e9e9e;
+  font-size: 10px;
+  letter-spacing: .19em;
+}
+
+.ruler-track {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 180px;
+}
+
+.ruler-tick {
+  position: absolute;
+  right: 0;
+  width: 12px;
+  height: 1px;
+  background: #b7b7b7;
+  transform: translateY(-50%);
+}
+
+.ruler-tick.major {
+  width: 25px;
+  background: #7c7c7c;
+}
+
+.ruler-tick.medium {
+  width: 18px;
+}
+
+.ruler-tick-label {
+  position: absolute;
+  right: 33px;
+  top: -6px;
+  color: #a7a7a7;
+  font-size: 10px;
+  letter-spacing: .08em;
+}
+
+.ruler-progress {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 0%;
+  background: rgba(0, 102, 255, .3);
+}
+
+.ruler-pointer {
+  position: absolute;
+  right: 0;
+  top: 0%;
+  width: 86px;
+  height: 14px;
+  transform: translateY(-50%);
+}
+
+.ruler-pointer::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 6px;
+  width: 87px;
+  height: 2px;
+  background: var(--blue);
+}
+
+.ruler-pointer span {
+  position: absolute;
+  right: 6px;
+  top: -8px;
+  color: var(--blue);
+  font-size: 9px;
+}
+
+.ruler-number {
+  padding-top: 24px;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* NEXT SECTION PREVIEW */
+
+.next-section-preview {
+  position: fixed;
+  z-index: 8;
+  left: clamp(27px, 6vw, 104px);
+  bottom: 34px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  pointer-events: none;
+  opacity: .76;
+}
+
+.next-small {
+  color: #a9a9a9;
+  font-size: 9px;
+  letter-spacing: .18em;
+}
+
+.next-title {
+  color: #a7a7a7;
+  font-size: clamp(15px, 2.2vw, 25px);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  transform-origin: left bottom;
+}
+
+body:not(.below-hero) .next-section-preview {
+  bottom: 109px;
+}
+
+
+/* FLOATING ATLAS SHORTCUT */
+
+.scroll-index-button {
+  position: fixed;
+  z-index: 8;
+  top: 30px;
+  left: 34px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 11px 15px;
+  background: rgba(255, 255, 255, .93);
+  border: 1px solid #d9d9d9;
+
+  color: #333;
+  font-size: 10px;
+  letter-spacing: .18em;
+  cursor: pointer;
+
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease,
+    color .25s ease;
+}
+
+.index-blue-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+body.below-hero .scroll-index-button {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scroll-index-button:hover {
+  color: var(--blue);
+}
+
+body.index-active .depth-ruler,
+body.index-active .next-section-preview,
+body.index-active .scroll-index-button {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* =====================================
+   ATLAS / BLUE PORTAL
+===================================== */
+
+#index-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  display: grid;
+  place-items: center;
+
+  background-color: #082849;
+
+  background-image:
+    linear-gradient(
+      rgba(140, 181, 213, .07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(140, 181, 213, .07) 1px,
+      transparent 1px
+    );
+
+  background-size: 38px 38px;
+
+  clip-path: circle(
+    0px at
+    var(--origin-x, 50%)
+    var(--origin-y, 50%)
+  );
+
+  transition:
+    clip-path .85s cubic-bezier(.22, 1, .36, 1);
+
+  pointer-events: none;
+}
+
+#index-screen.open {
+  clip-path: circle(
+    150vmax at
+    var(--origin-x, 50%)
+    var(--origin-y, 50%)
+  );
+
+  pointer-events: auto;
+}
+
+
+/* ATLAS RETURN BUTTON */
+
+.back-button {
+  position: absolute;
+  z-index: 30;
+  top: 35px;
+  left: 35px;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+
+  border: none;
+  background: none;
+  color: white;
+  cursor: pointer;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .6s ease, visibility .6s;
+}
+
+#index-screen.ready .back-button {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-button:disabled {
+  cursor: default;
+}
+
+.back-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 1px solid white;
+  transition: background .3s, transform .3s;
+}
+
+.back-arrow {
+  font-size: 25px;
+}
+
+.back-button:not(:disabled):hover .back-dot {
+  background: #3385FF;
+  transform: scale(1.15);
+}
+
+.back-button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+
+
+/* ATLAS MAIN LAYOUT */
+
+#atlas-shell {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 32px clamp(18px, 5vw, 78px) 22px;
+
+  color: #f6f8fb;
+  opacity: 0;
+  transition: opacity .55s ease;
+}
+
+#index-screen.ready #atlas-shell {
+  opacity: 1;
+}
+
+.atlas-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+
+  padding: 0 0 22px 80px;
+  border-bottom: 1px solid rgba(218, 233, 245, .22);
+}
+
+.atlas-heading-lockup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.atlas-heading-lockup strong {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: .035em;
+}
+
+.atlas-heading-lockup small {
+  color: #93b1ca;
+  font-size: 9px;
+  letter-spacing: .21em;
+}
+
+.atlas-blue {
+  color: var(--blue);
+  font-size: 13px;
+}
+
+.atlas-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 23px;
+}
+
+.atlas-social a {
+  padding: 3px 0 7px;
+  border-bottom: 1px solid #5e8bb3;
+  color: #e6f1fb;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  text-decoration: none;
+}
+
+.atlas-social a:hover {
+  color: #6da5ff;
+}
+
+.atlas-intro {
+  padding: 24px 0 7px;
+}
+
+.atlas-intro p {
+  margin: 0 0 8px;
+  color: #96b1c9;
+  font-size: 10px;
+  letter-spacing: .22em;
+}
+
+.atlas-intro h2 {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 4vw, 54px);
+  line-height: 1;
+  letter-spacing: -.06em;
+}
+
+.atlas-intro > span {
+  color: #9fb9cf;
+  font-size: 10px;
+  letter-spacing: .1em;
+}
+
+.atlas-field {
+  position: relative;
+  width: 100%;
+  min-height: min(54vh, 520px);
+  max-width: 1250px;
+  flex: 1 0 auto;
+  align-self: center;
+  isolation: isolate;
+}
+
+.atlas-connection-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.atlas-connection-lines path {
+  fill: none;
+  stroke: #5c89ad;
+  stroke-width: 1;
+  stroke-dasharray: 4 7;
+  opacity: .26;
+  vector-effect: non-scaling-stroke;
+}
+
+.atlas-points {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+}
+
+
+/* ATLAS PROJECT NODES */
+
+.atlas-node {
+  position: absolute;
+  left: var(--atlas-x);
+  top: var(--atlas-y);
+  transform: translate(-50%, -50%);
+
+  width: 155px;
+  height: 144px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 12px 7px 5px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+
+  background: rgba(2, 26, 47, .12);
+  color: #f5f7fa;
+
+  cursor: pointer;
+  text-align: center;
+
+  transition:
+    background .2s,
+    border-color .2s,
+    opacity .2s,
+    box-shadow .2s;
+}
+
+.atlas-node::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.atlas-node:hover,
+.atlas-node:focus-visible {
+  outline: none;
+  background: rgba(8, 52, 84, .82);
+  border-color: #7cabe0;
+  box-shadow: 0 0 0 7px rgba(0,102,255,.08);
+}
+
+.atlas-points:has(.atlas-node:hover)
+.atlas-node:not(:hover),
+.atlas-points:has(.atlas-node:focus-visible)
+.atlas-node:not(:focus-visible) {
+  opacity: .55;
+}
+
+.atlas-diagram {
+  width: 92px;
+  height: 77px;
+  flex-shrink: 0;
+  overflow: visible;
+  transition: transform .4s cubic-bezier(.2,.8,.3,1);
+}
+
+.atlas-node:hover .atlas-diagram,
+.atlas-node:focus-visible .atlas-diagram {
+  transform: translateY(-5px) scale(1.09);
+}
+
+.atlas-diagram .diagram-main {
+  fill: none;
+  stroke: #f4f8fc;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.atlas-diagram .diagram-accent {
+  fill: none;
+  stroke: #4492ff;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 3 3;
+}
+
+.atlas-node-name {
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.atlas-node-stage {
+  color: #98b5ce;
+  font-size: 9px;
+  line-height: 1.4;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.atlas-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+
+  padding-top: 13px;
+  border-top: 1px solid rgba(218,233,245,.2);
+
+  color: #93adc3;
+  font-size: 9px;
+  letter-spacing: .17em;
+}
+
+
+/* =====================================
+   INDIVIDUAL PROJECT GALLERY
+===================================== */
+
+.atlas-detail {
+  position: absolute;
+  inset: 0;
+  z-index: 22;
+
+  padding: 25px clamp(24px, 6vw, 100px) 55px;
+  overflow: auto;
+
+  background: #f5f5f2;
+  color: #161616;
+
+  animation: atlasDetailIn .45s ease-out;
+}
+
+@keyframes atlasDetailIn {
+  from {
+    opacity: 0;
+    transform: scale(.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.detail-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  padding: 5px 0 18px;
+  border-bottom: 1px solid #ccc;
+
+  font-size: 10px;
+  letter-spacing: .13em;
+}
+
+.detail-topbar button,
+.detail-navigation button {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  color: #1a1a1a;
+  font: 700 11px Arial, Helvetica, sans-serif;
+  letter-spacing: .12em;
+  cursor: pointer;
+}
+
+.detail-topbar button:hover,
+.detail-navigation button:hover {
+  color: var(--blue);
+}
+
+.detail-shop-link {
+  padding: 11px 14px;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.detail-shop-link:hover {
+  background: var(--blue);
+  color: white;
+}
+
+.detail-intro {
+  max-width: 1100px;
+  margin: clamp(48px, 10vh, 110px) auto 42px;
+}
+
+.detail-kicker {
+  color: #787878;
+  font-size: 10px;
+  letter-spacing: .25em;
+}
+
+.detail-intro h2 {
+  max-width: 950px;
+  margin: 18px 0;
+
+  font-size: clamp(43px, 9vw, 126px);
+  font-weight: 800;
+  line-height: .93;
+  letter-spacing: -.07em;
+  overflow-wrap: anywhere;
+}
+
+.detail-intro > p:last-child {
+  max-width: 670px;
+  color: #606060;
+  font-size: clamp(15px, 1.6vw, 20px);
+  line-height: 1.7;
+}
+
+.detail-photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.detail-photo {
+  position: relative;
+  min-height: 255px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #e7e8e6;
+  margin: 0;
+}
+
+.detail-photo:first-child {
+  grid-column: 1 / -1;
+  aspect-ratio: 16 / 9;
+}
+
+.detail-photo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.detail-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 37px,
+      rgba(0,0,0,.045) 38px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 37px,
+      rgba(0,0,0,.045) 38px
+    ),
+    #e8e9e6;
+}
+
+.detail-photo-placeholder .atlas-diagram {
+  width: 190px;
+  height: 170px;
+}
+
+.detail-photo-placeholder .diagram-main {
+  stroke: #252c32;
+}
+
+.detail-photo-placeholder .diagram-accent {
+  stroke: var(--blue);
+}
+
+.detail-photo-placeholder span {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  color: #777;
+  font-size: 9px;
+  letter-spacing: .17em;
+}
+
+.detail-bottom {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 45px;
+  max-width: 1100px;
+  margin: 35px auto 60px;
+  padding-top: 28px;
+  border-top: 1px solid #c3c3c3;
+}
+
+.detail-bottom span {
+  color: #999;
+  font-size: 10px;
+  letter-spacing: .2em;
+}
+
+.detail-bottom p {
+  max-width: 610px;
+  color: #434343;
+  line-height: 1.65;
+}
+
+.detail-navigation {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px 0;
+  border-top: 1px solid #ccc;
+}
+
+#index-screen:has(.atlas-detail:not([hidden]))
+.back-button {
+  display: none;
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 760px) {
+
+  #atlas-shell {
+    padding: 22px 19px 18px;
+  }
+
+  .atlas-header {
+    padding: 8px 0 18px 57px;
+    min-height: 75px;
+  }
+
+  .atlas-heading-lockup strong {
+    font-size: 14px;
+  }
+
+  .atlas-social {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .atlas-social a {
+    font-size: 8px;
+  }
+
+  .atlas-intro {
+    padding-top: 18px;
+  }
+
+  .atlas-intro h2 {
+    font-size: 33px;
+  }
+
+  .atlas-field {
+    min-height: 560px;
+  }
+
+  .atlas-points {
+    min-height: 560px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    align-content: space-evenly;
+  }
+
+  .atlas-node {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    height: 155px;
+  }
+
+  .atlas-connection-lines {
+    display: none;
+  }
+
+  .atlas-footer span:last-child {
+    display: none;
+  }
+
+  .atlas-detail {
+    padding: 23px 20px 44px;
+  }
+
+  .detail-intro {
+    margin-top: 65px;
+  }
+
+  .detail-photos {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-photo:first-child {
+    grid-column: 1;
+  }
+
+  .detail-bottom {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 700px) {
+
+  .edou-hero {
+    padding: 100px 60px 100px 21px;
+  }
+
+  .wordmark-stage {
+    width: calc(100% - 35px);
+    margin-left: 33px;
+  }
+
+  .architecture-label {
+    right: calc(100% + 4px);
+    gap: 3px;
+  }
+
+  .architecture-label .architecture-word,
+  .architecture-label .portfolio-word {
+    font-size: clamp(6px, 1.7vw, 9px);
+    letter-spacing: 0;
+  }
+
+  .architecture-rule {
+    width: 2px;
+    height: 95%;
+    margin-left: 0;
+  }
+
+  .hero-topline {
+    left: 23px;
+    right: 65px;
+    font-size: 8px;
+  }
+
+  .hero-instruction {
+    top: 22vh;
+    left: 23px;
+    font-size: 8px;
+  }
+
+  .hero-scroll-cue {
+    left: 23px;
+    bottom: 45px;
+    font-size: 9px;
+  }
+
+  .hero-bottom-code {
+    display: none;
+  }
+
+  .depth-ruler {
+    width: 49px;
+    padding-top: 20px;
+  }
+
+  .ruler-title {
+    font-size: 8px;
+  }
+
+  .ruler-tick-label {
+    font-size: 8px;
+    right: 24px;
+  }
+
+  .ruler-tick.major {
+    width: 14px;
+  }
+
+  .ruler-tick.medium {
+    width: 10px;
+  }
+
+  .ruler-tick {
+    width: 6px;
+  }
+
+  .ruler-pointer {
+    width: 49px;
+  }
+
+  .ruler-pointer::before {
+    width: 49px;
+  }
+
+  .ruler-pointer span {
+    display: none;
+  }
+
+  .scroll-section {
+    padding-right: 65px;
+    min-height: 105svh;
+  }
+
+  .section-inner {
+    padding-top: 15vh;
+  }
+
+  .motion-heading {
+    font-size: clamp(34px, 10vw, 68px);
+  }
+
+  .section-description {
+    font-size: 14px;
+  }
+
+  .project-line {
+    grid-template-columns: 30px 1fr;
+    gap: 12px;
+  }
+
+  .project-line > small {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .studio-drawing {
+    width: 100%;
+    height: 170px;
+  }
+
+  .contact-study {
+    flex-direction: column;
+  }
+
+  .section-baseline {
+    right: 58px;
+  }
+
+  .next-section-preview {
+    left: 20px;
+    bottom: 40px;
+  }
+
+  body:not(.below-hero) .next-section-preview {
+    bottom: 108px;
+  }
+
+  .next-title {
+    font-size: 13px;
+  }
+
+  .scroll-index-button {
+    left: 17px;
+    top: 15px;
+  }
+}
+
+@media (max-width: 440px) {
+  .atlas-node {
+    height: 145px;
+  }
+
+  .atlas-intro h2 {
+    font-size: 29px;
+  }
+
+  .atlas-footer {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .motion-heading,
+  .next-title {
+    transform: none !important;
+  }
+
+  #e-night-building,
+  .architecture-label {
+    transition: none;
+  }
+
+  .walker,
+  .left-leg,
+  .right-leg {
+    animation: none !important;
+  }
+
+  .left-leg,
+  .right-leg {
+    opacity: 1;
+  }
+
+  .atlas-detail,
+  .atlas-diagram {
+    animation: none;
+    transition: none;
+  }
+}
+ 
