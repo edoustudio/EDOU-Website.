@@ -1,16 +1,648 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>EDOU</title>
-</head>
-<body>
-    
-<h1>
-    <img src="edou-wordmark.png" alt="EDOU" width="400">
-</h1>
 
-    <p>Design Studio - IG: @edou.studio</p>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>EDOU Studio</title>
+
+    <!-- Connect CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Connect JavaScript -->
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<!-- EDOU / HOME -->
+
+<section id="home" class="edou-hero">
+
+  <div class="hero-topline">
+    <span>EDOU / DESIGN STUDIO</span>
+    <span class="hero-top-right">
+      FIG. 000 / ENTRY
+      <a class="quick-shop" data-social="etsy"
+         target="_blank" rel="noopener noreferrer"
+         hidden>SHOP ↗</a>
+    </span>
+  </div>
+
+  <div class="hero-instruction">
+    CLICK THE BLUE DOT FOR THE ATLAS
+    <br>
+    HOVER THE E FOR ARCHITECTURE
+    <br>
+    OR SCROLL TO EXPLORE
+  </div>
+
+  <div class="wordmark-stage" id="wordmark-stage">
+
+    <div id="architecture-label"
+         class="architecture-label"
+         aria-hidden="true">
+      <span class="architecture-word">ARCHITECTURE</span>
+      <span class="portfolio-word">PORTFOLIO</span>
+      <span class="architecture-rule"></span>
+    </div>
+
+    <svg id="edou-logo"
+         xmlns="http://www.w3.org/2000/svg"
+         viewBox="-8 -8 1577 371"
+         width="1100"
+         aria-label="EDOU Studio">
+
+      <defs>
+        <pattern id="brick-pattern"
+                 width="48" height="26"
+                 patternUnits="userSpaceOnUse">
+          <path d="
+            M0 0H48 M0 13H48
+            M0 0V13 M24 13V26
+          "
+          fill="none"
+          stroke="#929292"
+          stroke-width="1.2"/>
+        </pattern>
+
+        <clipPath id="upper-bar-clip">
+          <rect x="0" y="0"
+                width="360" height="103" rx="28"/>
+        </clipPath>
+
+        <clipPath id="middle-bar-clip">
+          <rect x="0" y="121"
+                width="360" height="109" rx="28"/>
+        </clipPath>
+
+        <clipPath id="lower-bar-clip">
+          <rect x="0" y="249"
+                width="360" height="106" rx="28"/>
+        </clipPath>
+      </defs>
+
+      <g fill="#111111">
+
+        <!-- ORIGINAL E GEOMETRY -->
+        <g id="letter-e">
+
+          <rect x="0" y="0"
+                width="360" height="103" rx="28"/>
+
+          <rect x="0" y="121"
+                width="360" height="109" rx="28"/>
+
+          <rect x="0" y="249"
+                width="360" height="106" rx="28"/>
+
+          <!-- NIGHTTIME BUILDING -->
+          <g id="e-night-building"
+             pointer-events="none"
+             aria-hidden="true">
+
+            <g clip-path="url(#upper-bar-clip)">
+              <rect x="0" y="0"
+                    width="360" height="103"
+                    fill="url(#brick-pattern)"
+                    opacity=".65"/>
+              <g id="night-upper-windows"></g>
+            </g>
+ 
+            <g clip-path="url(#middle-bar-clip)">
+              <rect x="0" y="121"
+                    width="360" height="109"
+                    fill="url(#brick-pattern)"
+                    opacity=".65"/>
+              <g id="night-middle-windows"></g>
+            </g>
+
+            <g clip-path="url(#lower-bar-clip)">
+              <rect x="0" y="249"
+                    width="360" height="106"
+                    fill="url(#brick-pattern)"
+                    opacity=".65"/>
+              <g id="night-lower-windows"></g>
+            </g>
+
+          </g>
+
+          <!-- ARCHITECTURE PORTFOLIO TRIGGER -->
+          <g id="architecture-trigger"
+             role="link"
+             tabindex="0"
+             aria-label="Open architecture portfolio">
+            <rect x="0" y="0"
+                  width="360" height="355"
+                  fill="transparent"/>
+          </g>
+
+        </g>
+
+        <!-- ORIGINAL D -->
+        <path d="
+          M 433 0
+          H 652
+          A 106 106 0 0 1 758 106
+          V 249
+          A 106 106 0 0 1 652 355
+          H 431
+          A 29 29 0 0 1 402 326
+          V 279
+          A 28 28 0 0 1 430 251
+          H 577
+          A 76 76 0 0 0 577 99
+          H 434
+          A 28 28 0 0 1 406 71
+          V 28
+          A 28 28 0 0 1 434 0
+          Z"/>
+
+        <!-- ORIGINAL O -->
+        <path fill-rule="evenodd" d="
+          M 847 0
+          H 1096
+          A 55 55 0 0 1 1151 55
+          V 300
+          A 55 55 0 0 1 1096 355
+          H 847
+          A 55 55 0 0 1 792 300
+          V 55
+          A 55 55 0 0 1 847 0
+          Z
+
+          M 1068 178
+          A 97 97 0 1 0 874 178
+          A 97 97 0 1 0 1068 178
+          Z"/>
+
+        <!-- ORIGINAL U -->
+        <path d="
+          M 1213 0
+          H 1269
+          Q 1297 0 1297 28
+          V 173
+          Q 1297 232 1356 232
+          H 1391
+          Q 1450 232 1450 173
+          V 28
+          Q 1450 0 1478 0
+          H 1534
+          Q 1561 0 1561 28
+          V 304
+          Q 1561 355 1510 355
+          H 1237
+          Q 1186 355 1186 304
+          V 28
+          Q 1186 0 1213 0
+          Z"/>
+
+        <!-- BLUE DOT -->
+        <g id="dot-travel">
+          <circle id="edou-dot"
+                  cx="556" cy="176" r="59"
+                  fill="#0066FF"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Enter EDOU Atlas"/>
+        </g>
+
+      </g>
+    </svg>
+
+  </div>
+
+  <a href="#projects"
+     class="hero-scroll-cue"
+     aria-label="Scroll to Projects and Objects">
+    <span class="cue-dot"></span>
+    <span>SCROLL TO EXPLORE</span>
+    <span class="cue-arrow">↓</span>
+  </a>
+
+  <span class="hero-bottom-code">
+    STUDIO / EXPERIMENT 002
+  </span>
+
+</section>
+
+
+<!-- MAIN SCROLLING WEBSITE -->
+
+<main id="site-content">
+
+  <!-- PROJECTS & OBJECTS -->
+  <section id="projects"
+           class="scroll-section section-projects">
+
+    <div class="section-rule">
+      <span>01</span>
+      <span>SECTION / OBJECTS</span>
+    </div>
+
+    <div class="section-inner">
+
+      <p class="section-kicker">01 / SELECTED WORK</p>
+
+      <h2 class="motion-heading">
+        PROJECTS <span class="ampersand">&amp;</span>
+        <br>OBJECTS
+      </h2>
+
+      <p class="section-description">
+        A growing collection of objects,
+        material studies and design experiments.
+      </p>
+
+      <div class="project-index">
+
+        <div class="project-line">
+          <span>001</span>
+          <strong>KINTSUGI D. CUBE</strong>
+          <small>ART OBJECT / REALIZED</small>
+        </div>
+
+        <div class="project-line">
+          <span>002</span>
+          <strong>******</strong>
+          <small>PRODUCT / IN DEVELOPMENT</small>
+        </div>
+
+        <div class="project-line">
+          <span>003</span>
+          <strong>**********</strong>
+          <small>CONCEPT / EXPERIMENT</small>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-baseline">
+      <span>EDOU STUDIO</span>
+      <span>SCROLL / 01—04</span>
+    </div>
+
+  </section>
+
+
+  <!-- ABOUT -->
+  <section id="about"
+           class="scroll-section section-about">
+
+    <div class="section-rule">
+      <span>02</span>
+      <span>SECTION / STUDIO</span>
+    </div>
+
+    <div class="section-inner">
+
+      <p class="section-kicker">02 / STUDIO</p>
+
+      <h2 class="motion-heading">ABOUT</h2>
+
+      <p class="section-description">
+        EDOU is a multidisciplinary design studio
+        exploring the intersection of architecture,
+        Industrial designed products, objects and emerging ideas.
+      </p>
+
+      <div class="studio-drawing" aria-hidden="true">
+        <div class="studio-crosshair"></div>
+        <div class="studio-shape one"></div>
+        <div class="studio-shape two"></div>
+        <div class="studio-shape three"></div>
+        <span class="studio-annotation">
+          FIG. 002 / EXPERIMENTAL STUDIES
+        </span>
+      </div>
+
+    </div>
+
+    <div class="section-baseline">
+      <span>EDOU STUDIO</span>
+      <span>SCROLL / 02—04</span>
+    </div>
+
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact"
+           class="scroll-section section-contact">
+
+    <div class="section-rule">
+      <span>03</span>
+      <span>SECTION / CONNECTION</span>
+    </div>
+
+    <div class="section-inner">
+
+      <p class="section-kicker">03 / CONNECT</p>
+
+      <h2 class="motion-heading">CONTACT</h2>
+
+      <p class="section-description">
+        Ideas, collaborations, commissions,
+        and conversations begin here.
+      </p>
+
+      <div class="contact-study">
+        <span>LET'S MAKE SOMETHING.</span>
+
+        <span>
+          <a data-social="instagram"
+             target="_blank"
+             rel="noopener noreferrer"
+             hidden>INSTAGRAM ↗</a>
+
+          <a data-social="etsy"
+             target="_blank"
+             rel="noopener noreferrer"
+             hidden>SHOP / ETSY ↗</a>
+        </span>
+      </div>
+
+      <a class="return-to-top" href="#home">
+        ↑ &nbsp; BACK TO THE BEGINNING
+      </a>
+
+    </div>
+
+    <div class="section-baseline">
+      <span>EDOU STUDIO</span>
+      <span>SCROLL / 03—04</span>
+    </div>
+
+  </section>
+
+
+  <!-- ARCHITECTURE PORTFOLIO -->
+  <section id="architecture"
+           class="scroll-section section-architecture">
+
+    <div class="section-rule">
+      <span>04</span>
+      <span>SECTION / ARCHITECTURE</span>
+    </div>
+
+    <div class="section-inner">
+
+      <p class="section-kicker">
+        04 / ARCHITECTURAL DESIGN
+      </p>
+
+      <h2 class="motion-heading">
+        ARCHITECTURE<br>PORTFOLIO
+      </h2>
+
+      <p class="section-description">
+        Architectural design projects, drawings,
+        explorations, and proposals will appear here.
+        This section is a placeholder.
+      </p>
+
+      <a class="return-to-top" href="#home">
+        ↑ &nbsp; BACK TO THE BEGINNING
+      </a>
+
+    </div>
+
+    <div class="section-baseline">
+      <span>EDOU STUDIO</span>
+      <span>END / 04—04</span>
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- SCROLL DEPTH RULER -->
+
+<aside id="depth-ruler"
+       class="depth-ruler"
+       aria-label="Website scroll progress">
+
+  <span class="ruler-title">EDOU / DEPTH</span>
+
+  <div id="ruler-track"
+       class="ruler-track"
+       aria-hidden="true">
+
+    <div id="ruler-ticks"></div>
+
+    <div id="ruler-progress"
+         class="ruler-progress"></div>
+
+    <div id="ruler-pointer"
+         class="ruler-pointer">
+      <span></span>
+    </div>
+
+  </div>
+
+  <output id="ruler-number"
+          class="ruler-number">00.0</output>
+
+</aside>
+
+
+<!-- NEXT SECTION LABEL -->
+
+<div id="next-section-preview"
+     class="next-section-preview"
+     aria-hidden="true">
+
+  <span class="next-small">NEXT / 01</span>
+
+  <span id="next-title"
+        class="next-title">
+    PROJECTS &amp; OBJECTS
+  </span>
+
+</div>
+
+
+<!-- ATLAS SHORTCUT WHILE SCROLLING -->
+
+<button id="scroll-index-button"
+        class="scroll-index-button"
+        type="button">
+  <span class="index-blue-dot"></span>
+  <span>ATLAS</span>
+</button>
+
+
+<!-- =====================================
+     THE INTERACTIVE ATLAS
+===================================== -->
+
+<section id="index-screen"
+         class="atlas-overlay"
+         inert
+         aria-label="EDOU project Atlas">
+
+  <!-- RETURN TO WEBSITE -->
+  <button id="back-button"
+          class="back-button"
+          type="button"
+          aria-label="Return to EDOU opening"
+          disabled>
+    <span class="back-dot"></span>
+    <span class="back-arrow">←</span>
+  </button>
+
+
+  <!-- ATLAS CLOUD -->
+  <div id="atlas-shell" class="atlas-shell">
+
+    <header class="atlas-header">
+
+      <div class="atlas-heading-lockup">
+        <strong>
+          EDOU <span class="atlas-blue">●</span> ATLAS
+        </strong>
+        <small>PROJECT FIELD / FIG. 002</small>
+      </div>
+
+      <nav class="atlas-social">
+
+        <a data-social="etsy"
+           target="_blank"
+           rel="noopener noreferrer"
+           hidden>
+          SHOP / ETSY ↗
+        </a>
+
+        <a data-social="instagram"
+           target="_blank"
+           rel="noopener noreferrer"
+           hidden>
+          INSTAGRAM ↗
+        </a>
+
+      </nav>
+    </header>
+
+
+    <div class="atlas-intro">
+      <p>EDOU STUDIO / WORK ARCHIVE</p>
+      <h2>A CLOUD OF IDEAS.</h2>
+      <span>
+        SELECT ANY DIAGRAM TO EXPLORE THE PROJECT.
+      </span>
+    </div>
+
+
+    <!-- PROJECT PARTI DIAGRAMS INSERTED BY JS -->
+    <div id="atlas-field"
+         class="atlas-field">
+
+      <svg id="atlas-connections"
+           class="atlas-connection-lines"
+           viewBox="0 0 1000 590"
+           preserveAspectRatio="none"
+           aria-hidden="true"></svg>
+
+      <div id="atlas-points"
+           class="atlas-points"></div>
+
+    </div>
+
+
+    <footer class="atlas-footer">
+      <span>EDOU / THE PROJECT ATLAS</span>
+      <span id="atlas-count">00 PROJECTS</span>
+      <span>PARTI → PROJECT → GALLERY</span>
+    </footer>
+
+  </div>
+
+
+  <!-- INDIVIDUAL PROJECT GALLERY -->
+  <article id="atlas-detail"
+           class="atlas-detail"
+           hidden
+           aria-label="Project gallery">
+
+    <div class="detail-topbar">
+
+      <button id="atlas-return"
+              class="detail-back"
+              type="button">
+        ← &nbsp; RETURN TO ATLAS
+      </button>
+
+      <span id="detail-count">
+        PROJECT / 01—06
+      </span>
+
+      <a id="detail-shop-top"
+         class="detail-shop-link"
+         target="_blank"
+         rel="noopener noreferrer"
+         hidden>
+        SHOP THIS OBJECT ↗
+      </a>
+
+    </div>
+
+
+    <div class="detail-intro">
+
+      <p id="detail-meta"
+         class="detail-kicker">
+        PROJECT / EDOU
+      </p>
+
+      <h2 id="detail-title">PROJECT</h2>
+
+      <p id="detail-description"></p>
+
+    </div>
+
+
+    <!-- PROJECT IMAGES INSERTED BY JS -->
+    <div id="detail-photos"
+         class="detail-photos"></div>
+
+
+    <div class="detail-bottom">
+
+      <div>
+        <span>DESIGN NOTE</span>
+        <p id="detail-note"></p>
+      </div>
+
+      <div>
+        <span>STATUS</span>
+        <p id="detail-stage"></p>
+      </div>
+
+    </div>
+
+
+    <div class="detail-navigation">
+
+      <button id="detail-prev"
+              type="button">
+        ← PREVIOUS PROJECT
+      </button>
+
+      <button id="detail-next"
+              type="button">
+        NEXT PROJECT →
+      </button>
+
+    </div>
+
+  </article>
+
+</section>
+
 </body>
 </html>
