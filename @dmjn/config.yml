@@ -1,0 +1,60 @@
+# EDOU CMS. GitHub authentication requires a separately deployed OAuth
+# proxy (for example, a Cloudflare Worker); see SETUP_DECAP.md.
+backend:
+  name: github
+  repo: edoustudio/EDOU-Website.
+  branch: main
+  # base_url: https://YOUR-OAUTH-WORKER.example.workers.dev
+  # auth_endpoint: auth
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+site_url: https://edoustudio.com
+display_url: https://edoustudio.com
+logo_url: /favicon.ico
+publish: true
+
+collections:
+  - name: studio
+    label: "Studio Settings"
+    files:
+      - label: "Studio and Social Links"
+        name: site
+        file: data/site.json
+        format: json
+        fields:
+          - {label: "Studio name", name: studio_name, widget: string}
+          - {label: "Etsy URL", name: etsy_url, widget: string, required: false}
+          - {label: "Instagram URL", name: instagram_url, widget: string, required: false}
+          - {label: "Atlas headline", name: gallery_intro, widget: string}
+          - {label: "Atlas caption", name: gallery_caption, widget: text}
+  - name: catalog
+    label: "Projects & Objects"
+    files:
+      - label: "Atlas Project Catalog"
+        name: projects
+        file: data/projects.json
+        format: json
+        fields:
+          - label: "Projects (drag to reorder)"
+            name: projects
+            widget: list
+            summary: "{{fields.title}} — {{fields.stage}}"
+            fields:
+              - {label: "URL slug", name: slug, widget: string}
+              - {label: "Title", name: title, widget: string}
+              - {label: "Category", name: category, widget: string}
+              - {label: "Stage", name: stage, widget: string}
+              - {label: "Year", name: year, widget: string}
+              - {label: "Diagram", name: diagram, widget: select, options: ["cube", "wallet", "domino", "birdhouse", "modules", "architecture", "abstract", "lamp"]}
+              - {label: "Atlas X (%)", name: x, widget: number, value_type: int, min: 10, max: 90}
+              - {label: "Atlas Y (%)", name: y, widget: number, value_type: int, min: 12, max: 87}
+              - {label: "Description", name: description, widget: text}
+              - {label: "Additional notes", name: note, widget: text, required: false}
+              - label: "Gallery images"
+                name: images
+                widget: list
+                required: false
+                field: {label: "Image", name: image, widget: image}
+              - {label: "Available for purchase", name: available, widget: boolean, default: false}
+              - {label: "Product shop URL", name: shop_url, widget: string, required: false}

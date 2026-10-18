@@ -1349,9 +1349,10 @@ const ATLAS_DIAGRAMS = {
 
         const data = await responses[0].json();
 
-        if (Array.isArray(data) && data.length) {
-          projects = data;
-        }
+        const catalog = Array.isArray(data) ? data : data.projects;
+          if (Array.isArray(catalog) && catalog.length) {
+            projects = catalog;
+          }
       }
 
       if (responses[1].ok) {
