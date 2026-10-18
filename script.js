@@ -1,4 +1,3 @@
-
 /* =====================================
    EDOU / WEBSITE JAVASCRIPT
 ===================================== */
@@ -33,10 +32,10 @@ const DEMO_PROJECTS = [
 
   {
     slug: "kintsugi-cube",
-    title: "Kintsugi D. Cube",
+    title: "Kintsugi D.",
     category: "Sculptural object",
-    stage: "Realized",
-    year: "2026",
+    stage: "Realized Series",
+    year: "2024",
 
     diagram: "cube",
 
@@ -44,10 +43,10 @@ const DEMO_PROJECTS = [
     y: 24,
 
     description:
-      "A geometric sculptural object exploring fracture, repair, and the visual tension between broken and whole.",
+      "A geometric sculptural series exploring fracture, repair, and the visual tension between broken and whole.",
 
     note:
-      "A continuing EDOU series of sculptural cubes and spheres.",
+      "A continuing EDOU series of sculptures and objects.",
 
     images: [],
 
@@ -153,10 +152,10 @@ const DEMO_PROJECTS = [
 
   {
     slug: "architecture-studies",
-    title: "Architectural Studies",
+    title: "Architectural Works",
     category: "Architecture",
-    stage: "Exploration",
-    year: "2026",
+    stage: "Concepts & Exploration",
+    year: "2021-CURRENT",
 
     diagram: "architecture",
 
@@ -164,7 +163,7 @@ const DEMO_PROJECTS = [
     y: 78,
 
     description:
-      "Architectural design projects, spatial studies, drawings, and proposals.",
+      "Architectural designs, projects, spatial studies, drawings, and concepts designed in University-Now.",
 
     note:
       "Replace this sample with one of your architectural projects.",
@@ -184,7 +183,7 @@ const DEMO_PROJECTS = [
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-const IDLE_DELAY = 30000;
+const IDLE_DELAY = 60000; // Preview speed. Change to 30000 for original 30-second idle.
 
 const nightConfigs = [
   {
@@ -341,6 +340,38 @@ nightConfigs.forEach(config => {
 });
 
 
+/* ADD MATCHING WINDOWS TO D, O, AND U, CLIPPED TO ORIGINAL LETTER GEOMETRY. */
+const nightOtherWindows = [
+  {id:"night-d-windows",path:"edou-d-path",xs:[445,495,545,595,645,695],ys: [14,57,100,143,180,220,263,308],w:38,h:31},
+  {id:"night-o-windows",path:"edou-o-path",xs:[815,860,910,953,996,1045,1090],ys: [14,60,100,143,180,220,263,305],w:38,h:31},
+  {id:"night-u-windows",path:"edou-u-path",xs:[1202,1247,1300,1354,1407,1462,1507],ys:[14,57,100,143,183,222,263,305],w:38,h:31} 
+];
+nightOtherWindows.forEach(config=>{
+  const parent=document.getElementById(config.id);
+  const shape=document.getElementById(config.path);
+  for(const y of config.ys){
+    for(const x of config.xs){
+      const p=document.getElementById("edou-logo").createSVGPoint();
+      let count=0;
+      // Only add windows fully within the visible letter facade.
+      for(const [px,py] of [[x+config.w/2,y+config.h/2],[x+5,y+5],[x+config.w-5,y+5],[x+5,y+config.h-5],[x+config.w-5,y+config.h-5]]){
+        p.x=px;p.y=py;
+        if(shape.isPointInFill(p)) count++;
+      }
+      if(count<5) continue;
+      const w=nightEl("svg",{x,y,width:config.w,height:config.h,viewBox:`0 0 ${config.w} ${config.h}`,overflow:"hidden",class:"night-window"});
+      w.appendChild(nightEl("rect",{x:0,y:0,width:config.w,height:config.h,rx:2.5,class:"window-glass"}));
+      // Same black figures and walking leg animation as E.
+      const walker=nightWalker();
+      walker.setAttribute("transform",`translate(${config.w*.48-19} 0) scale(.85)`);
+      w.appendChild(walker);
+      w.appendChild(nightEl("rect",{x:.7,y:.7,width:config.w-1.4,height:config.h-1.4,rx:2,class:"window-frame"}));
+      parent.appendChild(w);
+      nightWindows.push(w);
+    }
+  }
+});
+
 /* =====================================
    04 / NIGHT ANIMATION CONTROL
 ===================================== */
@@ -408,7 +439,7 @@ function startBuilding() {
   );
 
   const darkCount =
-    5 + Math.floor(Math.random() * 10);
+    Math.floor(nightWindows.length * (.23 + Math.random() * .17));
 
   shuffled.slice(darkCount).forEach((w, index) => {
 
@@ -450,7 +481,7 @@ function startBuilding() {
 
       buildingTimers.push(personTimer);
 
-    }, 200 + index * 180);
+    }, 450 + index * 72);
 
     buildingTimers.push(lightTimer);
 
@@ -794,281 +825,334 @@ backButton.addEventListener(
 ===================================== */
 
 (() => {
-
-  const sections = [
-    document.getElementById("home"),
-    document.getElementById("projects"),
-    document.getElementById("about"),
-    document.getElementById("contact"),
-    document.getElementById("architecture")
-  ];
-
-  const ticks = document.getElementById(
-    "ruler-ticks"
-  );
-
-  const pointer = document.getElementById(
-    "ruler-pointer"
-  );
-
-  const progressLine = document.getElementById(
-    "ruler-progress"
-  );
-
-  const number = document.getElementById(
-    "ruler-number"
-  );
-
-  const next = document.getElementById(
-    "next-section-preview"
-  );
-
-  const nextTitle = document.getElementById(
-    "next-title"
-  );
-
-  const nextSmall = next.querySelector(
-    ".next-small"
-  );
-
-  const floatingIndex = document.getElementById(
-    "scroll-index-button"
-  );
+  const sections = ["home", "projects", "about", "contact", "architecture"]
+    .map(id => document.getElementById(id));
+  const ticks = document.getElementById("ruler-ticks");
+  const rulerTrack = document.getElementById("ruler-track");
+  const pointer = document.getElementById("ruler-pointer");
+  const progressLine = document.getElementById("ruler-progress");
+  const number = document.getElementById("ruler-number");
+  const next = document.getElementById("next-section-preview");
+  const nextTitle = document.getElementById("next-title");
+  const nextSmall = next.querySelector(".next-small");
+  const floatingIndex = document.getElementById("scroll-index-button");
 
   let ticking = false;
+  let dragging = false;
+  let pointerId = null;
+  let committed = "0.0";
+  let editingSubmitted = false;
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const maxScroll = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const scrollPercent = () => maxScroll() ? clamp(window.scrollY / maxScroll() * 100, 0, 100) : 0;
+  const oneDecimal = v => Math.round(clamp(v, 0, 100) * 10) / 10;
 
-  const clamp = (value, min, max) =>
-    Math.min(max, Math.max(min, value));
+  function display(value) {
+    const p = oneDecimal(value);
+    pointer.style.top = p + "%";
+    progressLine.style.height = p + "%";
+    pointer.firstElementChild.textContent = p.toFixed(1);
+    rulerTrack.setAttribute("aria-valuenow", p.toFixed(1));
+    rulerTrack.setAttribute("aria-valuetext", p.toFixed(1) + " percent");
+    if (document.activeElement !== number) {
+      number.value = p.toFixed(1);
+      committed = number.value;
+    }
+  }
 
+  function goTo(percentage, smooth = false) {
+    const p = oneDecimal(percentage);
+    display(p);
+    window.scrollTo({
+      top: maxScroll() * p / 100,
+      behavior: smooth ? "smooth" : "instant"
+    });
+  }
 
-  /* RULER TICK MARKS */
-
+  // Mechanical ruler ticks: 0 through 100.
+  ticks.replaceChildren();
   for (let i = 0; i <= 50; i++) {
-
     const tick = document.createElement("span");
-
-    tick.className =
-      "ruler-tick" +
-      (
-        i % 5 === 0
-          ? " major"
-          : i % 2 === 0
-            ? " medium"
-            : ""
-      );
-
+    tick.className = "ruler-tick" + (i % 5 === 0 ? " major" : i % 2 === 0 ? " medium" : "");
     tick.style.top = i * 2 + "%";
-
     if (i % 5 === 0) {
-
       const label = document.createElement("span");
-
       label.className = "ruler-tick-label";
-
-      label.textContent = String(i * 2).padStart(
-        2,
-        "0"
-      );
-
+      label.textContent = String(i * 2).padStart(2, "0");
       tick.appendChild(label);
     }
-
     ticks.appendChild(tick);
   }
 
-
-  /* UPDATE ON SCROLL */
-
-  function paint() {
-
-    ticking = false;
-
-    const max = Math.max(
-      1,
-      document.documentElement.scrollHeight -
-        window.innerHeight
-    );
-
-    const progress = clamp(
-      window.scrollY / max,
-      0,
-      1
-    );
-
-    const shown = (
-      progress * 100
-    ).toFixed(1).padStart(4, "0");
-
-    pointer.style.top =
-      progress * 100 + "%";
-
-    progressLine.style.height =
-      progress * 100 + "%";
-
-    number.textContent = shown;
-
-    pointer.firstElementChild.textContent = shown;
-
-
-    /* SECTION HEADING ANIMATION */
-
-    sections.slice(1).forEach(section => {
-
-      const heading = section.querySelector(
-        ".motion-heading"
-      );
-
-      const rect = section.getBoundingClientRect();
-
-      const entry = clamp(
-        (
-          window.innerHeight * .94 - rect.top
-        ) / (
-          window.innerHeight * .72
-        ),
-        0,
-        1
-      );
-
-      const tone = Math.round(
-        179 - 159 * entry
-      );
-
-      const scale = .78 + entry * .22;
-
-      const offset = (1 - entry) * 46;
-
-      heading.style.color =
-        `rgb(${tone},${tone},${tone})`;
-
-      heading.style.transform =
-        `translate3d(0,${offset}px,0) scale(${scale})`;
-
-      heading.style.fontWeight =
-        entry > .75
-        ? "800"
-        : entry > .35
-          ? "600"
-          : "400";
-
-    });
-
-
-    /* NEXT SECTION LABEL */
-
-    const activeLine =
-      window.scrollY +
-      window.innerHeight * .55;
-
-    let active = 0;
-
-    sections.forEach((section, index) => {
-
-      if (section.offsetTop <= activeLine) {
-        active = index;
-      }
-
-    });
-
-    const nextIndex = Math.min(
-      active + 1,
-      sections.length - 1
-    );
-
-    const finished =
-      active === sections.length - 1;
-
-    const future = sections[nextIndex];
-
-    nextSmall.textContent =
-      finished
-        ? "END OF INDEX"
-        : "NEXT / " +
-          String(nextIndex).padStart(2, "0");
-
-    nextTitle.textContent =
-      finished
-        ? "RETURN TO THE BEGINNING"
-        : future.querySelector(".motion-heading")
-            ?.textContent
-            .replace(/\s+/g, " ")
-            .trim() || "PROJECTS & OBJECTS";
-
-    next.style.opacity =
-      finished ? ".5" : ".77";
-
-    document.body.classList.toggle(
-      "below-hero",
-      window.scrollY >
-      window.innerHeight * .52
-    );
+  // Pointer dragging and click-to-position, for mouse/touch/pen.
+  function pointerPercent(event) {
+    const rect = rulerTrack.getBoundingClientRect();
+    if (!rect.height) return 0;
+    return oneDecimal((event.clientY - rect.top) / rect.height * 100);
   }
-
-  function schedule() {
-
-    if (ticking) return;
-
-    ticking = true;
-
-    requestAnimationFrame(paint);
+  function endDrag(event) {
+    if (event.pointerId !== pointerId) return;
+    dragging = false;
+    pointerId = null;
+    rulerTrack.classList.remove("is-dragging");
+    if (rulerTrack.hasPointerCapture(event.pointerId)) {
+      rulerTrack.releasePointerCapture(event.pointerId);
+    }
   }
+  rulerTrack.addEventListener("pointerdown", event => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    dragging = true;
+    pointerId = event.pointerId;
+    rulerTrack.classList.add("is-dragging");
+    rulerTrack.setPointerCapture(event.pointerId);
+    goTo(pointerPercent(event));
+  });
+  rulerTrack.addEventListener("pointermove", event => {
+    if (dragging && event.pointerId === pointerId) goTo(pointerPercent(event));
+  });
+  rulerTrack.addEventListener("pointerup", endDrag);
+  rulerTrack.addEventListener("pointercancel", endDrag);
+  rulerTrack.addEventListener("lostpointercapture", endDrag);
 
-  window.addEventListener(
-    "scroll",
-    schedule,
-    { passive: true }
-  );
+  // Keyboard navigation when the track is selected.
+  rulerTrack.addEventListener("keydown", event => {
+    let p = scrollPercent();
+    switch (event.key) {
+      case "ArrowUp": p -= 1; break;
+      case "ArrowDown": p += 1; break;
+      case "PageUp": p -= 10; break;
+      case "PageDown": p += 10; break;
+      case "Home": p = 0; break;
+      case "End": p = 100; break;
+      default: return;
+    }
+    event.preventDefault();
+    goTo(p);
+  });
 
-  window.addEventListener(
-    "resize",
-    schedule
-  );
+  // One-decimal-place value editing (0.0–100.0).
+  // Do not jump while typing: Enter or blur applies the edit.
+  number.addEventListener("focus", () => {
+    committed = scrollPercent().toFixed(1);
+    editingSubmitted = false;
+    number.select();
+  });
+  number.addEventListener("input", () => {
+    let clean = number.value.replace(/[^\d.]/g, "");
+    const pieces = clean.split(".");
+    clean = pieces[0].slice(0, 3);
+    if (pieces.length > 1) clean += "." + pieces.slice(1).join("").slice(0, 1);
+    if (clean !== "" && Number(clean) > 100) clean = "100";
+    number.value = clean;
+  });
+  function commitValue() {
+    if (editingSubmitted) return;
+    editingSubmitted = true;
+    const raw = number.value.trim();
+    const parsed = raw === "" || raw === "." ? scrollPercent() : Number(raw);
+    const p = oneDecimal(Number.isFinite(parsed) ? parsed : scrollPercent());
+    number.value = p.toFixed(1);
+    committed = number.value;
+    goTo(p, true);
+  }
+  number.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      commitValue();
+      number.blur();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      editingSubmitted = true;
+      number.value = scrollPercent().toFixed(1);
+      number.blur();
+    }
+  });
+  number.addEventListener("blur", commitValue);
 
-  paint();
+  // EDOU / CONTINUOUS SINGLE-GLYPH HEADING MOTION (preview)
+  // One SVG glyph per character: no separate standby label, no thin/bold
+  // overlap, no native heading crossfade and no font-size/weight switches.
+  // The SAME SVG text object is in the list, on the track and at its endpoint.
+  const NS = 'http://www.w3.org/2000/svg';
+  const flightSvg = document.createElementNS(NS, 'svg');
+  flightSvg.setAttribute('class', 'letter-flight-field');
+  flightSvg.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(flightSvg);
 
-
-  /* LOCK BACKGROUND WHEN ATLAS OPEN */
-
-  const syncOverlay = () => {
-
-    document.body.classList.toggle(
-      "index-active",
-      indexScreen.classList.contains("open")
-    );
+const makeSvg = (tag, attrs = {}) => {
+    const el = document.createElementNS(NS, tag);
+    for (const [key, val] of Object.entries(attrs)) el.setAttribute(key, String(val));
+    return el;
   };
 
-  new MutationObserver(syncOverlay).observe(
-    indexScreen,
-    {
-      attributes: true,
-      attributeFilter: ["class"]
-    }
-  );
-
-
-  /* FLOATING ATLAS BUTTON */
-
-  floatingIndex.addEventListener(
-    "click",
-    () => {
-
-      window.scrollTo({
-        top: 0,
-        behavior: "instant"
+  const headingSections = sections.slice(1);
+  const indexNames = ['PROJECTS & OBJECTS', 'ABOUT', 'CONTACT', 'ARCHITECTURE PORTFOLIO'];
+  const metrics = document.createElement('canvas').getContext('2d');
+  const smooth = v => { v=clamp(v,0,1); return v*v*(3-2*v); };
+  const glyphSets = headingSections.map((section, sectionIndex) => {
+    const heading = section.querySelector('.motion-heading');
+    // Wrap real DOM text only to measure the precise ending position and
+    // preserve HTML line breaks & the blue ampersand.
+    function splitText(parent) {
+      [...parent.childNodes].forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const frag = document.createDocumentFragment();
+          [...node.textContent.replace(/\s+/g,' ')].forEach(letter => {
+            if (letter === ' ') frag.appendChild(document.createTextNode(' '));
+            else {
+              const span = document.createElement('span');
+              span.className = 'heading-letter-target';
+              span.textContent = letter;
+              frag.appendChild(span);
+            }
+          });
+          node.replaceWith(frag);
+        } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== 'BR') {
+          splitText(node);
+        }
       });
-
-      requestAnimationFrame(() => {
-        dot.dispatchEvent(
-          new MouseEvent("click", {
-            bubbles: true
-          })
-        );
-      });
     }
-  );
+    splitText(heading);
+    const targets = [...heading.querySelectorAll('.heading-letter-target')];
+    // Source positions use the same SVG font metrics and glyph element.
+    // Hence there is no mini-resize when a letter launches.
+    const chars = [...indexNames[sectionIndex]];
+    const advances = [];
+    const fontSmall = window.innerWidth <= 700 ? 10 : 12;
+    metrics.font = `400 ${fontSmall}px Arial`;
+    let cumulative = 0;
+    chars.forEach(letter => {
+      const advance = metrics.measureText(letter).width + (window.innerWidth<=700?.35:.5);
+      if (letter !== ' ') advances.push(cumulative + advance/2);
+      cumulative += advance;
+    });
+    const glyphs = targets.map((target, i) => {
+      const g = makeSvg('g');
+const text = makeSvg('text', {
+  'font-family': 'Arial,Helvetica,sans-serif',
+  'font-size': 100,
+  'font-weight': 400,
+  'text-anchor': 'middle',
+  'dominant-baseline': 'central',
+  'fill': '#505050',
+  'stroke': '#505050',
+  'stroke-width': 0,
+  'stroke-linejoin': 'round',
+  'paint-order': 'stroke fill'
+});
+      text.textContent = target.textContent;
+      g.appendChild(text);
+      flightSvg.appendChild(g);
+      const path = makeSvg('path', { fill:'none', stroke:'none' });
+      flightSvg.appendChild(path);
+      return {target,g,text,path,order:targets.length-1-i,sourceOffset:advances[i] ?? i*fontSmall};
+    });
+    return {section,heading,glyphs};
+  });
 
+  function paint() {
+    ticking = false;
+    display(scrollPercent());
+    const vh=window.innerHeight, vw=window.innerWidth;
+    const launchX = vw <= 700 ? 36 : 74;
+    const spacing = vw <= 700 ? 10 : 14;
+    const feedTop = vw <= 700 ? 85 : 78;
+    const small = vw <= 700 ? 10 : 12;
+    const enterY = vh*.98, arriveY=vh*.28;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    flightSvg.setAttribute('viewBox',`0 0 ${vw} ${vh}`);
+    flightSvg.setAttribute('width',vw);
+    flightSvg.setAttribute('height',vh);
+
+    // Each section progresses continuously based on its own physical scroll
+    // position. Waiting labels ALL shift together by the same continuous
+    // amount as preceding headings finish, never by an index jump.
+    const progress = glyphSets.map(item => {
+      const box=item.heading.getBoundingClientRect();
+      return clamp((enterY-box.top)/(enterY-arriveY),0,1);
+    });
+    const shifts = progress.map(p => smooth(clamp((p-.64)/.36,0,1)));
+    let shifted = 0;
+    glyphSets.forEach((group,j) => {
+      group.heading.style.opacity = reduced ? '1' : '0';
+      const p=progress[j];
+      const sourceX=launchX+(j-shifted)*spacing;
+      const finalSize=parseFloat(getComputedStyle(group.heading).fontSize) || 85;
+      group.glyphs.forEach(letter => {
+        if(reduced) {letter.g.style.display='none';return;}
+        letter.g.style.display='';
+        const sourceY=feedTop+letter.sourceOffset;
+        const box=letter.target.getBoundingClientRect();
+        const targetX=box.left+box.width/2;
+        const targetY=box.top+box.height/2;
+        let x=sourceX, y=sourceY, angle=90, scale=small/100, thick=0, grown=0;
+        if(p>0) {
+          const radius=Math.max(14,Math.min(65,(targetX-launchX)*.34));
+          const curveY=targetY-radius;
+          const topY=Math.min(-400,curveY-500);
+          letter.path.setAttribute('d',`M ${launchX} ${topY} V ${curveY} Q ${launchX} ${targetY} ${launchX+radius} ${targetY} H ${Math.max(launchX+radius,targetX)}`);
+          const len=letter.path.getTotalLength();
+          const startDist=Math.max(0,sourceY-topY);
+          // Last O travels first; A waits until the end. Each glyph launches
+          // continuously at the exact position and scale it had in the list.
+          const delay=letter.order*.012;
+          const u=clamp((p-delay)/(1-delay),0,1);
+          const travel=smooth(u);
+          const d=startDist+(len-startDist)*travel;
+          const q=letter.path.getPointAtLength(d);
+          const before=letter.path.getPointAtLength(Math.max(0,d-2));
+          const after=letter.path.getPointAtLength(Math.min(len,d+2));
+          x=q.x;y=q.y;
+          angle=Math.atan2(after.y-before.y,after.x-before.x)*180/Math.PI;
+          const fractionAcross=clamp((x-launchX)/Math.max(1,targetX-launchX),0,1);
+          grown=smooth(clamp((u-.46)/.54,0,1))*smooth(fractionAcross);
+          scale=(small+(finalSize-small)*grown)/100;
+          thick=smooth(clamp((u-.66)/.34,0,1));
+          // Use ONE glyph, with continuous stroke expansion rather than two
+          // overlaid glyphs; no double edges can ever appear.
+          if(p>=1) {x=targetX;y=targetY;angle=0;scale=finalSize/100;grown=1;thick=1;}
+        }
+        const from=[80,80,80], to=letter.target.closest('.ampersand')?[0,102,255]:[20,20,20];
+        const color='rgb('+from.map((v,k)=>Math.round(v+(to[k]-v)*thick)).join(',')+')';
+       
+letter.text.setAttribute('fill', color);
+letter.text.setAttribute('stroke', color);
+letter.text.setAttribute(
+  'stroke-width',
+  (8 * thick).toFixed(2)
+);
+
+        letter.g.setAttribute('transform',`translate(${x.toFixed(3)} ${y.toFixed(3)}) rotate(${angle.toFixed(3)}) scale(${scale.toFixed(5)})`);
+      });
+      shifted += shifts[j];
+    });
+    document.body.classList.toggle('below-hero',window.scrollY > vh*.52);
+  }
+  function schedule() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(paint);
+  }
+  window.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  paint();
+
+  // Keep Atlas open/closed background behavior.
+  const syncOverlay = () => {
+    document.body.classList.toggle("index-active", indexScreen.classList.contains("open"));
+  };
+  new MutationObserver(syncOverlay).observe(indexScreen, {
+    attributes: true, attributeFilter: ["class"]
+  });
+
+  // Preserve floating Atlas shortcut after scrolling.
+  floatingIndex.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+    requestAnimationFrame(() => {
+      dot.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+  });
 })();
-
 
 /* =====================================
    09 / PARTI DIAGRAM DEFINITIONS
@@ -1700,4 +1784,32 @@ const ATLAS_DIAGRAMS = {
     showAtlas
   };
 
+})();
+/* PREVIEW CONTROLS — remove this section and its HTML if not needed. */
+(() => {
+  const state=document.getElementById('night-demo-state');
+  const button=document.getElementById('demo-night-now');
+  const reset=document.getElementById('demo-reset-day');
+  if(!state || !button || !reset) return;
+  let lastInteraction=Date.now();
+  const note=()=>{lastInteraction=Date.now();};
+  document.addEventListener('pointermove',note,{passive:true});
+  document.addEventListener('keydown',note);
+  button.addEventListener('click',()=>{
+    clearTimeout(idleTimer);
+    resetBuilding();
+    startBuilding();
+    state.textContent='NIGHTTIME / CITY IS AWAKE';
+  });
+  reset.addEventListener('click',()=>{
+    resetBuilding();
+    state.textContent='DAYTIME / RESET';
+    note();rearmIdle();
+  });
+  setInterval(()=>{
+    if(buildingActive){state.textContent='NIGHTTIME / CITY IS AWAKE';return;}
+    if(phase!=='idle'||window.scrollY>50){state.textContent='SCROLL TO EXPLORE / NIGHT ON HOME';return;}
+    const remain=Math.max(0,Math.ceil((IDLE_DELAY-(Date.now()-lastInteraction))/1000));
+    state.textContent='DAYTIME / IDLE IN '+remain+' S';
+  },180);
 })();
