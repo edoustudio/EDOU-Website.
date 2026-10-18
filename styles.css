@@ -1,4 +1,3 @@
-
 /* =====================================
    EDOU / GLOBAL
 ===================================== */
@@ -948,8 +947,7 @@ body.index-active .scroll-index-button {
   overflow-x: hidden;
 
   padding: 32px clamp(18px, 5vw, 78px) 22px;
-
-  color: #f6f8fb;
+color: #f6f8fb;
   opacity: 0;
   transition: opacity .55s ease;
 }
@@ -1687,3 +1685,184 @@ body.index-active .scroll-index-button {
   }
 }
  
+/* =====================================
+   EDOU / DRAGGABLE DEPTH METER
+===================================== */
+
+/* Entire ruler can be clicked or dragged */
+#ruler-track {
+    position: relative;
+    cursor: ns-resize;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Blue position indicator */
+#ruler-pointer {
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+/* When dragging */
+#ruler-track.is-dragging,
+#ruler-track.is-dragging #ruler-pointer {
+    cursor: grabbing;
+}
+
+/* Larger invisible grab area */
+#ruler-pointer::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -12px;
+    bottom: -12px;
+    background: transparent;
+}
+
+/* Prevent tick marks from blocking dragging */
+#ruler-ticks,
+#ruler-progress {
+    pointer-events: none;
+}
+
+/* Visual feedback during dragging */
+#ruler-track.is-dragging
+#ruler-pointer::before {
+    height: 3px;
+    background: #0066FF;
+}
+
+/* Highlight the value while dragging */
+#depth-ruler:has(.is-dragging) #ruler-number {
+    color: #003B70;
+}
+
+/* Focus indication for keyboard users */
+#ruler-track:focus-visible {
+    outline: 2px solid #0066FF;
+    outline-offset: -3px;
+}
+
+
+/* =====================================
+   EDOU / INVISIBLE NATIVE SCROLLBAR
+   AND EDITABLE DEPTH READOUT
+===================================== */
+html, body { scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+
+#ruler-number {
+  display: block;
+  width: 69px;
+  min-width: 0;
+  margin-top: 0;
+  padding: 23px 0 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  outline: none;
+  background: transparent;
+  color: #0066FF;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  cursor: text;
+}
+#ruler-number:focus {
+  border-bottom-color: #0066FF;
+  color: #003B70;
+}
+@media (max-width: 700px) {
+  #ruler-number { width: 47px; font-size: 10px; }
+}
+
+
+/* ============================================
+   EDOU / TRACK-FOLLOWING HEADING LETTERS
+============================================ */
+.motion-heading { font-weight: 800; color: #141414; transform: none; opacity: 0; }
+.heading-letter-target { display: inline-block; }
+.next-section-preview { display: none !important; }
+.letter-flight-field {
+  position: fixed;
+  inset: 0;
+  z-index: 8;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: visible;
+}
+body.index-active .letter-flight-field { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .letter-flight-field { display: none; }
+  .motion-heading { opacity: 1 !important; }
+}
+
+/* Sideways index: keep all waiting labels above the site's artwork. */
+.letter-flight-field { z-index: 9; }
+@media (min-width: 701px) {
+  .hero-instruction { left: 145px; }
+  .hero-scroll-cue { left: 145px; }
+}
+
+/* Single glyph per letter: stroke thickens continuously, no fading duplicate. */
+.letter-flight-field text { font-kerning: normal; text-rendering: geometricPrecision; }
+/* =====================================
+   EDOU / MOONLIT CITY IDLE ANIMATION
+   Original wordmark path geometry remains unchanged.
+===================================== */
+#night-architecture-extras,#night-stars,#moon-craters{
+  opacity:0;pointer-events:none;transition:opacity 1s ease;
+}
+.edou-hero.night-active #night-architecture-extras {opacity:1;transition-delay:.12s;}
+.edou-hero.night-active #night-stars {opacity:1;transition-delay:1.1s;}
+.edou-hero.night-active #moon-craters {opacity:1;transition-delay:1.15s;}
+#dot-travel {
+  transform-origin:556px 176px;transform-box:view-box;
+  transition:transform 2.25s cubic-bezier(.21,.76,.2,1);
+}
+.edou-hero.night-active #dot-travel:not(.play) {
+  transform:translate(440px,-335px) scale(1.25);
+}
+/* The existing dot-to-Atlas navigation takes precedence over the moon. */
+#dot-travel.play {transition:none;}
+#night-stars .star {transform-box:fill-box;transform-origin:center;}
+.edou-hero.night-active .sparkle-a {animation:edouStar 3.7s ease-in-out infinite;}
+.edou-hero.night-active .sparkle-b {animation:edouStar 4.9s ease-in-out -1.1s infinite;}
+.edou-hero.night-active .sparkle-c {animation:edouStar 3.3s ease-in-out -2.1s infinite;}
+@keyframes edouStar {
+  0%,100% {opacity:.5;transform:scale(.8)}
+  50% {opacity:1;transform:scale(1.1)}
+}
+#night-architecture-extras .night-window.lit .window-glass {fill:#f2cb77;}
+#night-architecture-extras .window-frame {stroke:#b4a27a;stroke-width:1;}
+.night-window.lit .window-glass {filter:drop-shadow(0 0 3px rgba(249,190,78,.36));}
+.edou-hero.night-active .hero-instruction {transition:opacity .8s ease;opacity:.35;}
+/* Preview controls intentionally live outside the SVG and are not part of logo art. */
+.night-demo-controls {
+  position:absolute;z-index:4;bottom:80px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:18px;padding:11px 14px;
+  border:1px solid #dedede;background:rgba(255,255,255,.95);
+  box-shadow:0 5px 22px rgba(0,0,0,.03);
+  font-family:Arial,Helvetica,sans-serif;
+}
+.night-demo-status {display:flex;align-items:center;gap:8px;white-space:nowrap;font-size:9px;letter-spacing:.13em;color:#777;min-width:193px;}
+.night-demo-lamp {width:6px;height:6px;background:#0066ff;border-radius:50%;}
+.night-demo-buttons {display:flex;gap:4px;}
+.night-demo-buttons button {background:#fff;border:1px solid #dedede;padding:7px 10px;font-size:9px;letter-spacing:.08em;color:#252525;white-space:nowrap;cursor:pointer;}
+.night-demo-buttons button:first-child {background:#0066ff;color:#fff;border-color:#0066ff;}
+.night-demo-buttons button:hover {opacity:.72;}
+@media(max-width:680px){
+  .night-demo-controls{bottom:76px;gap:7px;max-width:95vw;padding:8px;}
+  .night-demo-status{min-width:0;font-size:8px;letter-spacing:0;}
+  .night-demo-buttons button{font-size:8px;padding:7px 5px;}
+  .hero-instruction{top:13vh;}
+}
+@media(prefers-reduced-motion:reduce){
+  #dot-travel,#night-architecture-extras,#night-stars,#moon-craters{transition:none!important;}
+  #night-stars .star{animation:none!important;}
+}
