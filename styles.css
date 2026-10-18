@@ -697,7 +697,7 @@ body.index-active {
   position: absolute;
   top: 0;
   right: 0;
-  width: 2px;
+  width: 5px;
   height: 0%;
   background: rgba(0, 102, 255, .3);
 }
